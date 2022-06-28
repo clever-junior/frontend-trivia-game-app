@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getToken } from '../services/API';
+import logo from './trivia.png';
+
 
 class Login extends React.Component {
     state = {
@@ -17,6 +19,7 @@ class Login extends React.Component {
       }
       this.setState({ [name]: value });
     }
+
 
     saveOnLocalStorage = async () => {
       const API = await getToken();
@@ -36,10 +39,18 @@ class Login extends React.Component {
       history.push('/game');
     }
 
+    handleBtnConfig = () => {
+      const { history } = this.props;
+      history.push('/Settings');
+    }
+
     render() {
       const { nameInput, email, btnPlayDisabled } = this.state;
       return (
         <div>
+
+          <img src={ logo } className="App-logo" alt="logo" />
+
           <form>
             <input
               type="text"
@@ -65,6 +76,13 @@ class Login extends React.Component {
               disabled={ btnPlayDisabled }
             >
               Play
+            </button>
+            <button
+              type="button"
+              data-testid="btn-settings"
+              onClick={ this.handleBtnConfig }
+            >
+              Configurações
             </button>
           </form>
         </div>
