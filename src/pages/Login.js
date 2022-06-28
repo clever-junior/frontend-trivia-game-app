@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { getToken } from '../services/API';
 
 class Login extends React.Component {
     state = {
@@ -16,7 +18,23 @@ class Login extends React.Component {
       this.setState({ [name]: value });
     }
 
-    handleBtnPlay = () => {}
+    saveOnLocalStorage = async () => {
+      const API = await getToken();
+      const { token } = API;
+      const obj = {
+        token,
+        ranking: [],
+      };
+      localStorage.setItem('token', JSON.stringify(obj));
+    }
+
+    handleBtnPlay = () => {
+      this.saveOnLocalStorage();
+      console.log(this.props);
+      const { props } = this.props;
+      const { history } = props;
+      history.push('/game');
+    }
 
     render() {
       const { nameInput, email, btnPlayDisabled } = this.state;
@@ -53,5 +71,10 @@ class Login extends React.Component {
       );
     }
 }
+
+Login.propTypes = {
+  history: PropTypes.func.isRequired,
+  props: PropTypes.string.isRequired,
+};
 
 export default Login;
