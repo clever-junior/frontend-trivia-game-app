@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import logo from './trivia.png';
+
 class Login extends React.Component {
     state = {
       nameInput: '',
@@ -17,12 +18,11 @@ class Login extends React.Component {
       this.setState({ [name]: value });
     }
 
-
     handleBtnConfig = () => {
       const { history } = this.props;
       history.push('/Settings');
     }
-    
+
     handleBtnPlay = () => {}
 
     render() {
