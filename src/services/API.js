@@ -10,6 +10,10 @@ const getTrivia = async () => {
   const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
   const response = await fetch(URL);
   const json = await response.json();
+  if (json.results.length === 0) {
+    localStorage.removeItem('token');
+    return false;
+  }
   return json;
 };
 

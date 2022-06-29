@@ -22,7 +22,12 @@ class Login extends React.Component {
 
     saveOnLocalStorage = async () => {
       const API = await getToken();
+      const { history } = this.props;
       const { token } = API;
+      if (!token) {
+        localStorage.removeItem('token');
+        history.push('/');
+      }
       localStorage.setItem('token', token);
     }
 
@@ -89,7 +94,7 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  stateLogin: (p1, p2) => dispatch(saveLogin(p1, p2)),
+  stateLogin: (name, email) => dispatch(saveLogin(name, email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
