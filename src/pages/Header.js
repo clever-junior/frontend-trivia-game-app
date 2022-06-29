@@ -11,7 +11,9 @@ class Header extends React.Component {
     componentDidMount() {
       const { email } = this.props;
       const hastCreator = md5(email).toString();
+      console.log(this.props);
       const gravatarUrl = `https://www.gravatar.com/avatar/${hastCreator}`;
+      console.log(gravatarUrl);
       this.setState({ gravatarEmail: gravatarUrl });
     }
 

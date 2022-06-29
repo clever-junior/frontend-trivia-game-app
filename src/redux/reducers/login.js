@@ -12,8 +12,8 @@ const reducerLogin = (state = INITIAL_STATE, action) => {
   case SAVE_LOGIN:
     return {
       ...state,
-      gravatarEmail: action.payload,
-      name: action.payload,
+      gravatarEmail: action.email,
+      name: action.nome,
     };
   default:
     return state;

@@ -1,8 +1,9 @@
 import SAVE_LOGIN from './actionsTypes';
 
-const saveLogin = (payload) => ({
+const saveLogin = (nome, email) => ({
   type: SAVE_LOGIN,
-  payload,
+  nome,
+  email,
 });
 
 export default saveLogin;

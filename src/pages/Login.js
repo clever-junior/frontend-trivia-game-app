@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import getToken from '../services/API';
+import { getToken } from '../services/API';
 import saveLogin from '../redux/actions';
 
 class Login extends React.Component {
@@ -89,7 +89,7 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  stateLogin: (state) => dispatch(saveLogin(state)),
+  stateLogin: (p1, p2) => dispatch(saveLogin(p1, p2)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
