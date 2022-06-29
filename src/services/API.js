@@ -5,11 +5,19 @@ const getToken = async () => {
   return requestJson;
 };
 
-// export const getTrivia = async (token) => {
-//   const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
-//   const response = await fetch(URL);
-//   const json = await response.json();
-//   return json;
-// };
+const getTrivia = async () => {
+  const token = localStorage.getItem('token');
+  const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
+  const response = await fetch(URL);
+  const json = await response.json();
+  if (json.results.length === 0) {
+    localStorage.removeItem('token');
+    return false;
+  }
+  return json;
+};
 
-export default getToken;
+export {
+  getTrivia,
+  getToken,
+};

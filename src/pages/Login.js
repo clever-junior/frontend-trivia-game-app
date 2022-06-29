@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import getToken from '../services/API';
+import { connect } from 'react-redux';
+import { getToken } from '../services/API';
+import saveLogin from '../redux/actions';
 
 class Login extends React.Component {
     state = {
@@ -20,11 +22,19 @@ class Login extends React.Component {
 
     saveOnLocalStorage = async () => {
       const API = await getToken();
+      const { history } = this.props;
       const { token } = API;
+      if (!token) {
+        localStorage.removeItem('token');
+        history.push('/');
+      }
       localStorage.setItem('token', token);
     }
 
     handleBtnPlay = async () => {
+      const { stateLogin } = this.props;
+      const { nameInput, email } = this.state;
+      stateLogin(nameInput, email);
       await this.saveOnLocalStorage();
       const { history } = this.props;
       history.push('/game');
@@ -80,6 +90,11 @@ class Login extends React.Component {
 
 Login.propTypes = {
   history: PropTypes.func.isRequired,
+  stateLogin: PropTypes.func.isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  stateLogin: (name, email) => dispatch(saveLogin(name, email)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
