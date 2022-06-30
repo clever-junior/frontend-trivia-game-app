@@ -58,6 +58,7 @@ class Game extends React.Component {
   handleAnswer = () => {
     this.setState({
       showAnswer: true,
+      disabledBtn: true,
     });
   }
 
@@ -73,7 +74,6 @@ handleTimer = () => {
   setTimeout(() => {
     this.setState({
       timer: false,
-      disabledBtn: true,
     }, () => this.handleAnswer());
   }, a);
 }
