@@ -1,4 +1,4 @@
-import SAVE_LOGIN from '../actions/actionsTypes';
+import SAVE_LOGIN, { MY_SCORE } from '../actions/actionsTypes';
 
 const INITIAL_STATE = {
   name: '',
@@ -7,7 +7,8 @@ const INITIAL_STATE = {
   gravatarEmail: '',
 };
 
-const reducerLogin = (state = INITIAL_STATE, action) => {
+const player = (state = INITIAL_STATE, action) => {
+  // console.log(action);
   switch (action.type) {
   case SAVE_LOGIN:
     return {
@@ -15,9 +16,14 @@ const reducerLogin = (state = INITIAL_STATE, action) => {
       gravatarEmail: action.email,
       name: action.nome,
     };
+  case MY_SCORE:
+    return {
+      ...state,
+      score: action.payload,
+    };
   default:
     return state;
   }
 };
 
-export default reducerLogin;
+export default player;
