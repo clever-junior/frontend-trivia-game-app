@@ -4,16 +4,17 @@ import PropTypes from 'prop-types';
 import Header from './Header';
 import '../App.css';
 import { getTrivia } from '../services/API';
-import { myPunctuation } from '../redux/actions/index';
+import { myPunctuation, userAssertions } from '../redux/actions/index';
 
 class Game extends React.Component {
   state = {
     answers: [],
     contador: 0,
-    next: {},
     correctAnswer: '',
     showAnswer: false,
     counter: 30,
+    result: [],
+    assertions: 0,
   };
 
   stopTimer = 0;
@@ -35,10 +36,10 @@ class Game extends React.Component {
     const questions = [correctAnswer, ...incorrectAnswers];
     const answersRandom = this.shuffleArray(questions);
     this.setState({
-      next: nextResults,
       answers: answersRandom,
       correctAnswer,
       difficulty,
+      result: results,
     });
     this.handleTimer();
   }
@@ -71,15 +72,40 @@ class Game extends React.Component {
 
     handlePunctuation = () => {
       const { mapDispatch, lastScore } = this.props;
-      // console.log(lastScore);
       const { counter, difficulty } = this.state;
       const resultados = { counter, difficulty, lastScore };
       mapDispatch(resultados);
       this.handleAnswer();
+      this.setState((prev) => ({
+        assertions: prev.assertions + 1,
+      }), () => this.handleGambis());
     };
 
+    handleGambis = () => {
+      const { assertions } = this.state;
+      const { mapAssertions } = this.props;
+      mapAssertions(assertions);
+    };
+
+    handleNext = () => {
+      const { history } = this.props;
+      const { contador } = this.state;
+      const quatro = 4;
+      this.setState((prev) => ({
+        contador: prev.contador + 1,
+        showAnswer: false,
+        counter: 30,
+      }), () => contador === quatro && history.push('/feedback'));
+      this.handleTimer();
+    }
+
     render() {
-      const { next, answers, correctAnswer, showAnswer, counter } = this.state;
+      const { answers,
+        correctAnswer,
+        showAnswer,
+        counter,
+        contador,
+        result } = this.state;
       if (counter === 0) {
         clearInterval(this.stopTimer);
       }
@@ -87,8 +113,8 @@ class Game extends React.Component {
         <div>
           <Header />
           <div>
-            <h3 data-testid="question-category">{next.category}</h3>
-            <h3 data-testid="question-text">{next.question}</h3>
+            <h3 data-testid="question-category">{result[contador]?.category}</h3>
+            <h3 data-testid="question-text">{result[contador]?.question}</h3>
           </div>
           {counter !== 0 ? <h4>{counter}</h4> : <h4>ACABOU O TEMPO</h4>}
           {showAnswer === true || counter === 0
@@ -136,6 +162,18 @@ class Game extends React.Component {
                 )}
               </div>
             ))}
+          {showAnswer === true || counter === 0
+            ? (
+              <button
+                data-testid="btn-next"
+                type="button"
+                onClick={ this.handleNext }
+              >
+                Next
+
+              </button>
+            )
+            : <div />}
         </div>
       );
     }
@@ -147,12 +185,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   mapDispatch: (state) => dispatch(myPunctuation(state)),
+  mapAssertions: (state) => dispatch(userAssertions(state)),
 });
 
 Game.propTypes = {
   history: PropTypes.func.isRequired,
   mapDispatch: PropTypes.func.isRequired,
   lastScore: PropTypes.func.isRequired,
+  mapAssertions: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
