@@ -10,7 +10,6 @@ class Game extends React.Component {
   state = {
     answers: [],
     contador: 0,
-    next: {},
     correctAnswer: '',
     showAnswer: false,
     counter: 30,
@@ -28,7 +27,6 @@ class Game extends React.Component {
     const { results } = data;
     const { contador } = this.state;
     const nextResults = results[contador];
-    console.log(results);
     const {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
@@ -37,7 +35,6 @@ class Game extends React.Component {
     const questions = [correctAnswer, ...incorrectAnswers];
     const answersRandom = this.shuffleArray(questions);
     this.setState({
-      // next: nextResults,
       answers: answersRandom,
       correctAnswer,
       difficulty,
@@ -91,7 +88,12 @@ class Game extends React.Component {
     }
 
     render() {
-      const { answers, correctAnswer, showAnswer, counter, contador, result } = this.state;
+      const { answers,
+        correctAnswer,
+        showAnswer,
+        counter,
+        contador,
+        result } = this.state;
       if (counter === 0) {
         clearInterval(this.stopTimer);
       }
