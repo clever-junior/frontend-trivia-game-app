@@ -71,7 +71,7 @@ class Game extends React.Component {
 
     handlePunctuation = () => {
       const { mapDispatch, lastScore } = this.props;
-      // console.log(lastScore);
+      console.log(lastScore);
       const { counter, difficulty } = this.state;
       const resultados = { counter, difficulty, lastScore };
       mapDispatch(resultados);
