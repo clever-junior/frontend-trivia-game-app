@@ -43,6 +43,14 @@ body {
   color: #61dafb;
 }
 
+.right {
+  border: 3px solid rgb(6, 240, 15)
+}
+
+.wrong {
+  border: 3px solid red
+}
+
 @keyframes shake {
 
   10%, 90% {
@@ -60,12 +68,4 @@ body {
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
-}
-
-.right {
-  border: 3px solid rgb(6, 240, 15)
-}
-
-.wrong {
-  border: 3px solid red
 }
