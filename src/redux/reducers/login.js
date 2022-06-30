@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   gravatarEmail: '',
 };
 
-const reducerLogin = (state = INITIAL_STATE, action) => {
+const player = (state = INITIAL_STATE, action) => {
   // console.log(action);
   switch (action.type) {
   case SAVE_LOGIN:
@@ -26,4 +26,4 @@ const reducerLogin = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default reducerLogin;
+export default player;
