@@ -16,7 +16,7 @@ class Header extends React.Component {
     }
 
     render() {
-      const { name } = this.props;
+      const { name, score } = this.props;
       const { gravatarEmail } = this.state;
       return (
         <div>
@@ -26,7 +26,7 @@ class Header extends React.Component {
             src={ gravatarEmail }
           />
           <h4 data-testid="header-player-name">{ name }</h4>
-          <h4 data-testid="header-score">0</h4>
+          <h4 data-testid="header-score">{score}</h4>
         </div>
       );
     }
@@ -35,11 +35,13 @@ class Header extends React.Component {
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   email: state.reducerLogin.gravatarEmail,
   name: state.reducerLogin.name,
+  score: state.reducerLogin.score,
 });
 
 export default connect(mapStateToProps, null)(Header);

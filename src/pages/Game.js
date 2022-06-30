@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import '../App.css';
 import { getTrivia } from '../services/API';
+import { myPunctuation } from '../redux/actions/index';
 
 class Game extends React.Component {
   state = {
@@ -28,10 +30,16 @@ class Game extends React.Component {
     const {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
+      difficulty,
     } = nextResults;
     const questions = [correctAnswer, ...incorrectAnswers];
     const answersRandom = this.shuffleArray(questions);
-    this.setState({ next: nextResults, answers: answersRandom, correctAnswer });
+    this.setState({
+      next: nextResults,
+      answers: answersRandom,
+      correctAnswer,
+      difficulty,
+    });
     this.handleTimer();
   }
 
@@ -61,71 +69,90 @@ class Game extends React.Component {
     );
   };
 
-  render() {
-    const { next, answers, correctAnswer, showAnswer, counter } = this.state;
-    if (counter === 0) {
-      clearInterval(this.stopTimer);
-    }
-    return (
-      <div>
-        <Header />
+    handlePunctuation = () => {
+      const { mapDispatch, lastScore } = this.props;
+      // console.log(lastScore);
+      const { counter, difficulty } = this.state;
+      const resultados = { counter, difficulty, lastScore };
+      mapDispatch(resultados);
+      this.handleAnswer();
+    };
+
+    render() {
+      const { next, answers, correctAnswer, showAnswer, counter } = this.state;
+      if (counter === 0) {
+        clearInterval(this.stopTimer);
+      }
+      return (
         <div>
-          <h3 data-testid="question-category">{next.category}</h3>
-          <h3 data-testid="question-text">{next.question}</h3>
+          <Header />
+          <div>
+            <h3 data-testid="question-category">{next.category}</h3>
+            <h3 data-testid="question-text">{next.question}</h3>
+          </div>
+          {counter !== 0 ? <h4>{counter}</h4> : <h4>ACABOU O TEMPO</h4>}
+          {showAnswer === true || counter === 0
+            ? answers.map((item, index) => (
+              <div key={ index } data-testid="answer-options">
+                {item === correctAnswer ? (
+                  <button
+                    type="button"
+                    data-testid="correct-answer"
+                    className="right"
+                    disabled
+                  >
+                    {item}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    data-testid={ `wrong-answer-${index}` }
+                    className="wrong"
+                    disabled
+                  >
+                    {item}
+                  </button>
+                )}
+              </div>
+            ))
+            : answers.map((item, index) => (
+              <div key={ index } data-testid="answer-options">
+                {item === correctAnswer ? (
+                  <button
+                    type="button"
+                    data-testid="correct-answer"
+                    onClick={ this.handlePunctuation }
+                  >
+                    {item}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    data-testid={ `wrong-answer-${index}` }
+                    onClick={ this.handleAnswer }
+                  >
+                    {item}
+                  </button>
+                )}
+              </div>
+            ))}
         </div>
-        {counter !== 0 ? <h4>{counter}</h4> : <h4>ACABOU O TEMPO</h4>}
-        {showAnswer === true || counter === 0
-          ? answers.map((item, index) => (
-            <div key={ index } data-testid="answer-options">
-              {item === correctAnswer ? (
-                <button
-                  type="button"
-                  data-testid="correct-answer"
-                  className="right"
-                  disabled
-                >
-                  {item}
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  data-testid={ `wrong-answer-${index}` }
-                  className="wrong"
-                  disabled
-                >
-                  {item}
-                </button>
-              )}
-            </div>
-          ))
-          : answers.map((item, index) => (
-            <div key={ index } data-testid="answer-options">
-              {item === correctAnswer ? (
-                <button
-                  type="button"
-                  data-testid="correct-answer"
-                  onClick={ this.handleAnswer }
-                >
-                  {item}
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  data-testid={ `wrong-answer-${index}` }
-                  onClick={ this.handleAnswer }
-                >
-                  {item}
-                </button>
-              )}
-            </div>
-          ))}
-      </div>
-    );
-  }
+      );
+    }
 }
+
+const mapStateToProps = (state) => ({
+  lastScore: state.reducerLogin.score,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  mapDispatch: (state) => dispatch(myPunctuation(state)),
+});
 
 Game.propTypes = {
   history: PropTypes.func.isRequired,
+  mapDispatch: PropTypes.func.isRequired,
+  lastScore: PropTypes.func.isRequired,
 };
 
-export default Game;
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

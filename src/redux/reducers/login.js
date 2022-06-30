@@ -1,4 +1,4 @@
-import SAVE_LOGIN from '../actions/actionsTypes';
+import SAVE_LOGIN, { MY_SCORE } from '../actions/actionsTypes';
 
 const INITIAL_STATE = {
   name: '',
@@ -8,12 +8,18 @@ const INITIAL_STATE = {
 };
 
 const reducerLogin = (state = INITIAL_STATE, action) => {
+  // console.log(action);
   switch (action.type) {
   case SAVE_LOGIN:
     return {
       ...state,
       gravatarEmail: action.email,
       name: action.nome,
+    };
+  case MY_SCORE:
+    return {
+      ...state,
+      score: action.payload,
     };
   default:
     return state;
