@@ -79,11 +79,14 @@ class Game extends React.Component {
     };
 
     handleNext = () => {
+      const { history } = this.props;
+      const { contador } = this.state;
+      const quatro = 4;
       this.setState((prev) => ({
         contador: prev.contador + 1,
         showAnswer: false,
         counter: 30,
-      }));
+      }), () => contador === quatro && history.push('/feedback'));
       this.handleTimer();
     }
 
