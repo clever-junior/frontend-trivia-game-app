@@ -44,8 +44,10 @@ class Game extends React.Component {
   };
 
   handleAnswer = () => {
+    clearInterval(this.stopTimer);
     this.setState({
       showAnswer: true,
+      counter: 0,
     });
   };
 
