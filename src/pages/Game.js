@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import '../App.css';
 import { getTrivia } from '../services/API';
 
 class Game extends React.Component {
@@ -9,6 +10,7 @@ class Game extends React.Component {
     contador: 0,
     next: {},
     correctAnswer: '',
+    showAnswer: false,
   };
 
   async componentDidMount() {
@@ -39,8 +41,14 @@ class Game extends React.Component {
     return arr;
   };
 
+  handleAnswer = () => {
+    this.setState({
+      showAnswer: true,
+    });
+  }
+
   render() {
-    const { next, answers, correctAnswer } = this.state;
+    const { next, answers, correctAnswer, showAnswer } = this.state;
     return (
       <div>
         <Header />
@@ -48,21 +56,57 @@ class Game extends React.Component {
           <h3 data-testid="question-category">{next.category}</h3>
           <h3 data-testid="question-text">{next.question}</h3>
         </div>
-        {answers.map((item, index) => (
-          <div key={ index } data-testid="answer-options">
-            {item === correctAnswer ? (
-              <button type="button" data-testid="correct-answer">{item}</button>
-            ) : (
-              <button
-                type="button"
-                data-testid={ `wrong-answer-${index}` }
-              >
-                {item}
+        {
+          showAnswer === true ? (
+            answers.map((item, index) => (
+              <div key={ index } data-testid="answer-options">
+                {item === correctAnswer ? (
+                  <button
+                    type="button"
+                    data-testid="correct-answer"
+                    className="right"
+                  >
+                    {item}
 
-              </button>
-            )}
-          </div>
-        ))}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    data-testid={ `wrong-answer-${index}` }
+                    className="wrong"
+                  >
+                    {item}
+
+                  </button>
+                )}
+              </div>
+            )))
+            : (answers.map(
+              (item, index) => (
+                <div key={ index } data-testid="answer-options">
+                  {item === correctAnswer ? (
+                    <button
+                      type="button"
+                      data-testid="correct-answer"
+                      onClick={ this.handleAnswer }
+                    >
+                      {item}
+
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      data-testid={ `wrong-answer-${index}` }
+                      onClick={ this.handleAnswer }
+                    >
+                      {item}
+
+                    </button>
+                  )}
+                </div>
+              ),
+            ))
+        }
       </div>
     );
   }
