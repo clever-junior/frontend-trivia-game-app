@@ -14,6 +14,7 @@ class Game extends React.Component {
     correctAnswer: '',
     showAnswer: false,
     counter: 30,
+    result: [],
   };
 
   stopTimer = 0;
@@ -27,6 +28,7 @@ class Game extends React.Component {
     const { results } = data;
     const { contador } = this.state;
     const nextResults = results[contador];
+    console.log(results);
     const {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
@@ -35,10 +37,11 @@ class Game extends React.Component {
     const questions = [correctAnswer, ...incorrectAnswers];
     const answersRandom = this.shuffleArray(questions);
     this.setState({
-      next: nextResults,
+      // next: nextResults,
       answers: answersRandom,
       correctAnswer,
       difficulty,
+      result: results,
     });
     this.handleTimer();
   }
@@ -78,8 +81,17 @@ class Game extends React.Component {
       this.handleAnswer();
     };
 
+    handleNext = () => {
+      this.setState((prev) => ({
+        contador: prev.contador + 1,
+        showAnswer: false,
+        counter: 30,
+      }));
+      this.handleTimer();
+    }
+
     render() {
-      const { next, answers, correctAnswer, showAnswer, counter } = this.state;
+      const { answers, correctAnswer, showAnswer, counter, contador, result } = this.state;
       if (counter === 0) {
         clearInterval(this.stopTimer);
       }
@@ -87,8 +99,8 @@ class Game extends React.Component {
         <div>
           <Header />
           <div>
-            <h3 data-testid="question-category">{next.category}</h3>
-            <h3 data-testid="question-text">{next.question}</h3>
+            <h3 data-testid="question-category">{result[contador]?.category}</h3>
+            <h3 data-testid="question-text">{result[contador]?.question}</h3>
           </div>
           {counter !== 0 ? <h4>{counter}</h4> : <h4>ACABOU O TEMPO</h4>}
           {showAnswer === true || counter === 0
@@ -136,6 +148,18 @@ class Game extends React.Component {
                 )}
               </div>
             ))}
+          {showAnswer === true || counter === 0
+            ? (
+              <button
+                data-testid="btn-next"
+                type="button"
+                onClick={ this.handleNext }
+              >
+                Next
+
+              </button>
+            )
+            : <div />}
         </div>
       );
     }
