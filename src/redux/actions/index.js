@@ -1,4 +1,4 @@
-import SAVE_LOGIN, { MY_SCORE } from './actionsTypes';
+import SAVE_LOGIN, { MY_SCORE, USER_SCORE } from './actionsTypes';
 
 const saveLogin = (nome, email) => ({
   type: SAVE_LOGIN,
@@ -10,6 +10,11 @@ export default saveLogin;
 
 export const myScore = (payload) => ({
   type: MY_SCORE,
+  payload,
+});
+
+export const userAssertions = (payload) => ({
+  type: USER_SCORE,
   payload,
 });
 

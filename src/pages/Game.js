@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from './Header';
 import '../App.css';
 import { getTrivia } from '../services/API';
-import { myPunctuation } from '../redux/actions/index';
+import { myPunctuation, userAssertions } from '../redux/actions/index';
 
 class Game extends React.Component {
   state = {
@@ -14,6 +14,7 @@ class Game extends React.Component {
     showAnswer: false,
     counter: 30,
     result: [],
+    assertions: 0,
   };
 
   stopTimer = 0;
@@ -71,11 +72,19 @@ class Game extends React.Component {
 
     handlePunctuation = () => {
       const { mapDispatch, lastScore } = this.props;
-      // console.log(lastScore);
       const { counter, difficulty } = this.state;
       const resultados = { counter, difficulty, lastScore };
       mapDispatch(resultados);
       this.handleAnswer();
+      this.setState((prev) => ({
+        assertions: prev.assertions + 1,
+      }), () => this.handleGambis());
+    };
+
+    handleGambis = () => {
+      const { assertions } = this.state;
+      const { mapAssertions } = this.props;
+      mapAssertions(assertions);
     };
 
     handleNext = () => {
@@ -176,12 +185,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   mapDispatch: (state) => dispatch(myPunctuation(state)),
+  mapAssertions: (state) => dispatch(userAssertions(state)),
 });
 
 Game.propTypes = {
   history: PropTypes.func.isRequired,
   mapDispatch: PropTypes.func.isRequired,
   lastScore: PropTypes.func.isRequired,
+  mapAssertions: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

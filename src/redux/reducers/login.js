@@ -1,4 +1,4 @@
-import SAVE_LOGIN, { MY_SCORE } from '../actions/actionsTypes';
+import SAVE_LOGIN, { MY_SCORE, USER_SCORE } from '../actions/actionsTypes';
 
 const INITIAL_STATE = {
   name: '',
@@ -8,7 +8,6 @@ const INITIAL_STATE = {
 };
 
 const player = (state = INITIAL_STATE, action) => {
-  // console.log(action);
   switch (action.type) {
   case SAVE_LOGIN:
     return {
@@ -20,6 +19,11 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: action.payload,
+    };
+  case USER_SCORE:
+    return {
+      ...state,
+      assertions: action.payload,
     };
   default:
     return state;
