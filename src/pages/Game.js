@@ -11,6 +11,9 @@ class Game extends React.Component {
     next: {},
     correctAnswer: '',
     showAnswer: false,
+    counter: 0,
+    timer: true,
+    disabledBtn: false,
   };
 
   async componentDidMount() {
@@ -27,11 +30,22 @@ class Game extends React.Component {
       incorrect_answers: incorrectAnswers,
     } = nextResults;
     const questions = [correctAnswer, ...incorrectAnswers];
-    console.log(questions);
+    // console.log(questions);
     const answersRandom = this.shuffleArray(questions);
-    console.log('random', answersRandom);
+    // console.log('random', answersRandom);
     this.setState({ next: nextResults, answers: answersRandom, correctAnswer });
+    this.handleTimer();
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { counter } = prevState;
+  //   const trinta = 30;
+  //   if (counter === trinta) {
+  //     this.setState({
+  //       counter: 0,
+  //     }, () => this.handleAnswer());
+  //   }
+  // }
 
   shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -47,24 +61,73 @@ class Game extends React.Component {
     });
   }
 
-  render() {
-    const { next, answers, correctAnswer, showAnswer } = this.state;
-    return (
+handleTimer = () => {
+  const ONE_SECOND = 1000;
+  setInterval(
+    () => this.setState((prevState) => ({
+      counter: prevState.counter + 1,
+    })),
+    ONE_SECOND,
+  );
+  const a = 31000;
+  setTimeout(() => {
+    this.setState({
+      timer: false,
+      disabledBtn: true,
+    }, () => this.handleAnswer());
+  }, a);
+}
+
+render() {
+  const { next,
+    answers, correctAnswer, showAnswer, counter, timer, disabledBtn } = this.state;
+  return (
+    <div>
+      <Header />
       <div>
-        <Header />
-        <div>
-          <h3 data-testid="question-category">{next.category}</h3>
-          <h3 data-testid="question-text">{next.question}</h3>
-        </div>
-        {
-          showAnswer === true ? (
-            answers.map((item, index) => (
+        <h3 data-testid="question-category">{next.category}</h3>
+        <h3 data-testid="question-text">{next.question}</h3>
+      </div>
+      {
+        timer === true
+          ? <h4>{ counter }</h4>
+          : <h4>ACABOU O TEMPO</h4>
+      }
+      {
+        showAnswer === true ? (
+          answers.map((item, index) => (
+            <div key={ index } data-testid="answer-options">
+              {item === correctAnswer ? (
+                <button
+                  type="button"
+                  data-testid="correct-answer"
+                  className="right"
+                  disabled={ disabledBtn }
+                >
+                  {item}
+
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  data-testid={ `wrong-answer-${index}` }
+                  className="wrong"
+                  disabled={ disabledBtn }
+                >
+                  {item}
+
+                </button>
+              )}
+            </div>
+          )))
+          : (answers.map(
+            (item, index) => (
               <div key={ index } data-testid="answer-options">
                 {item === correctAnswer ? (
                   <button
                     type="button"
                     data-testid="correct-answer"
-                    className="right"
+                    onClick={ this.handleAnswer }
                   >
                     {item}
 
@@ -73,43 +136,19 @@ class Game extends React.Component {
                   <button
                     type="button"
                     data-testid={ `wrong-answer-${index}` }
-                    className="wrong"
+                    onClick={ this.handleAnswer }
                   >
                     {item}
 
                   </button>
                 )}
               </div>
-            )))
-            : (answers.map(
-              (item, index) => (
-                <div key={ index } data-testid="answer-options">
-                  {item === correctAnswer ? (
-                    <button
-                      type="button"
-                      data-testid="correct-answer"
-                      onClick={ this.handleAnswer }
-                    >
-                      {item}
-
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      data-testid={ `wrong-answer-${index}` }
-                      onClick={ this.handleAnswer }
-                    >
-                      {item}
-
-                    </button>
-                  )}
-                </div>
-              ),
-            ))
-        }
-      </div>
-    );
-  }
+            ),
+          ))
+      }
+    </div>
+  );
+}
 }
 
 Game.propTypes = {
