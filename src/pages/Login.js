@@ -45,6 +45,11 @@ class Login extends React.Component {
       history.push('/Settings');
     }
 
+    handleRanking = () => {
+      const { history } = this.props;
+      history.push('/ranking');
+    }
+
     render() {
       const { nameInput, email, btnPlayDisabled } = this.state;
       return (
@@ -81,6 +86,13 @@ class Login extends React.Component {
               onClick={ this.handleBtnConfig }
             >
               Configurações
+            </button>
+            <button
+              type="button"
+              data-testid="btn-ranking"
+              onClick={ this.handleRanking }
+            >
+              Ranking
             </button>
           </form>
         </div>
