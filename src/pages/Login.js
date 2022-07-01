@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getToken } from '../services/API';
-import saveLogin from '../redux/actions';
+import saveLogin, { saveEmail } from '../redux/actions';
 
 class Login extends React.Component {
     state = {
@@ -32,9 +32,10 @@ class Login extends React.Component {
     }
 
     handleBtnPlay = async () => {
-      const { stateLogin } = this.props;
+      const { stateLogin, stateEmail } = this.props;
       const { nameInput, email } = this.state;
-      stateLogin(nameInput, email);
+      stateEmail(email);
+      stateLogin(nameInput);
       await this.saveOnLocalStorage();
       const { history } = this.props;
       history.push('/game');
@@ -103,10 +104,12 @@ class Login extends React.Component {
 Login.propTypes = {
   history: PropTypes.func.isRequired,
   stateLogin: PropTypes.func.isRequired,
+  stateEmail: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  stateLogin: (name, email) => dispatch(saveLogin(name, email)),
+  stateLogin: (state) => dispatch(saveLogin(state)),
+  stateEmail: (state) => dispatch(saveEmail(state)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

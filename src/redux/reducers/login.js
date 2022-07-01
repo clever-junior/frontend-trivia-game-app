@@ -1,4 +1,4 @@
-import SAVE_LOGIN, { MY_SCORE, USER_SCORE } from '../actions/actionsTypes';
+import SAVE_LOGIN, { MY_SCORE, USER_SCORE, SAVE_EMAIL } from '../actions/actionsTypes';
 
 const INITIAL_STATE = {
   name: '',
@@ -12,8 +12,12 @@ const player = (state = INITIAL_STATE, action) => {
   case SAVE_LOGIN:
     return {
       ...state,
-      gravatarEmail: action.email,
-      name: action.nome,
+      name: action.payload,
+    };
+  case SAVE_EMAIL:
+    return {
+      ...state,
+      gravatarEmail: action.payload,
     };
   case MY_SCORE:
     return {

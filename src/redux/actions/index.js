@@ -1,9 +1,13 @@
-import SAVE_LOGIN, { MY_SCORE, USER_SCORE } from './actionsTypes';
+import SAVE_LOGIN, { MY_SCORE, USER_SCORE, SAVE_EMAIL } from './actionsTypes';
 
-const saveLogin = (nome, email) => ({
+const saveLogin = (payload) => ({
   type: SAVE_LOGIN,
-  nome,
-  email,
+  payload,
+});
+
+export const saveEmail = (payload) => ({
+  type: SAVE_EMAIL,
+  payload,
 });
 
 export default saveLogin;

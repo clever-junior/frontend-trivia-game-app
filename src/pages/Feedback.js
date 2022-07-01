@@ -1,9 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import Header from './Header';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    this.saveOnLocalStorage();
+  }
+
+  saveOnLocalStorage = () => {
+    const { name, score, email, assertions } = this.props;
+    const hastCreator = md5(email).toString();
+    const gravatarUrl = `https://www.gravatar.com/avatar/${hastCreator}`;
+    const { length } = localStorage;
+    const perfis = [
+      name, score, assertions, gravatarUrl,
+    ];
+    const vamos = JSON.parse(perfis);
+    localStorage.setItem(length + 1, vamos);
+    localStorage.removeItem('token');
+  }
+
     handlePlayAgain = () => {
       const { history } = this.props;
       history.push('/');
@@ -52,11 +70,15 @@ Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   history: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
+  name: state.player.name,
+  email: state.player.gravatarEmail,
 });
 
 export default connect(mapStateToProps, null)(Feedback);
