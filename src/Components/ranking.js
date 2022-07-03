@@ -5,7 +5,7 @@ class RankingPlayer extends React.Component {
   render() {
     const { info, index } = this.props;
     // console.log(index);
-    console.log(info.ranking[0].name);
+    // console.log(info.ranking[0].score);
     return (
       <div>
         <h3
