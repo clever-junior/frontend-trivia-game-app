@@ -35,16 +35,22 @@ class Feedback extends React.Component {
         player,
       } = this.props;
 
+      const tokens = localStorage.getItem('token');
       // console.log(player);
-      // localStorage.removeItem('token');
-      // console.log(localStorage.getItem('token'));
+      const teste = {
+        ranking: [
+          { name: player.name, score: player.score, picture: player.gravatarImg },
+        ],
+        token: tokens,
+      };
+      console.log(teste);
+
       if (!localStorage.getItem('ranking')) {
-        const token = localStorage.getItem('token');
-        localStorage.setItem('ranking', JSON.stringify([player, token]));
+        // const token = localStorage.getItem('token');
+        localStorage.setItem('ranking', JSON.stringify([teste]));
       } else {
         const ranking = JSON.parse(localStorage.getItem('ranking'));
-        const token = localStorage.getItem('token');
-        localStorage.setItem('ranking', JSON.stringify([...ranking, player, token]));
+        localStorage.setItem('ranking', JSON.stringify([...ranking, teste]));
       }
     }
 

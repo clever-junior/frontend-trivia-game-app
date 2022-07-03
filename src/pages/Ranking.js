@@ -13,7 +13,7 @@ class Ranking extends React.Component {
     const sortedRanking = ranking.sort((a, b) => (b.score - a.score));
     this.setState({ jogadores: sortedRanking });
     // localStorage.setItem('ranking', JSON.stringify([sortedRanking]));
-    console.log(localStorage);
+    // console.log(localStorage);
   }
 
     handleHome = () => {
@@ -23,6 +23,7 @@ class Ranking extends React.Component {
 
     render() {
       const { jogadores } = this.state;
+      // console.log(jogadores);
       return (
         <div>
           <Header />

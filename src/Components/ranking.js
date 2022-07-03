@@ -5,14 +5,20 @@ class RankingPlayer extends React.Component {
   render() {
     const { info, index } = this.props;
     // console.log(index);
+    console.log(info.ranking[0].name);
     return (
       <div>
-        <h3 key={ index }>{ info.name }</h3>
-        <h4 data-testid={ `player-score-${index}` }>{ info.score }</h4>
+        <h3
+          key={ index }
+          data-testid={ `player-name-${index}` }
+        >
+          { info.ranking[0].name }
+
+        </h3>
+        <h4 data-testid={ `player-score-${index}` }>{ info.ranking[0].score }</h4>
         <img
-          data-testid={ `player-score-${index}` }
-          alt={ info.gravatarImg }
-          src={ info.gravatarImg }
+          alt={ info.ranking[0].picture }
+          src={ info.ranking[0].picture }
         />
       </div>
     );
