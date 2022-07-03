@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 class RankingPlayer extends React.Component {
   render() {
     const { info, index } = this.props;
-    // console.log(info);
     return (
       <div>
         <h3 key={ index }>{ info.player.name }</h3>

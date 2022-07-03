@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import md5 from 'crypto-js/md5';
 import Header from './Header';
 
 class Feedback extends React.Component {
   componentDidMount() {
-    // this.saveOnLocalStorage();
     this.saveLocalStorage();
   }
 
@@ -85,8 +83,6 @@ Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   history: PropTypes.func.isRequired,
-  // email: PropTypes.string.isRequired,
-  // name: PropTypes.string.isRequired,
   player: PropTypes.func.isRequired,
 };
 

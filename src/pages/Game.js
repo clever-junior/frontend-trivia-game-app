@@ -48,12 +48,6 @@ class Game extends React.Component {
       correctAnswer,
       difficulty,
     });
-
-    const { history } = this.props;
-    const quatro = 4;
-    if (contador === quatro) {
-      history.push('/feedback');
-    }
   }
 
   shuffleArray = (arr) => {
@@ -106,6 +100,13 @@ class Game extends React.Component {
         counter: 30,
       }), () => this.handleData());
       this.handleTimer();
+      const { history } = this.props;
+      const tres = 3;
+      const { contador } = this.state;
+      if (contador > tres) {
+        history.push('/feedback');
+        // console.log(history);
+      }
     }
 
     render() {
