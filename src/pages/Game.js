@@ -26,8 +26,16 @@ class Game extends React.Component {
       history.push('/');
     }
     const { results } = data;
-    const { contador } = this.state;
-    const nextResults = results[contador];
+    this.setState({
+      result: results,
+    });
+    this.handleData();
+    this.handleTimer();
+  }
+
+  handleData = () => {
+    const { contador, result } = this.state;
+    const nextResults = result[contador];
     const {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
@@ -39,9 +47,13 @@ class Game extends React.Component {
       answers: answersRandom,
       correctAnswer,
       difficulty,
-      result: results,
     });
-    this.handleTimer();
+
+    const { history } = this.props;
+    const quatro = 4;
+    if (contador === quatro) {
+      history.push('/feedback');
+    }
   }
 
   shuffleArray = (arr) => {
@@ -88,14 +100,11 @@ class Game extends React.Component {
     };
 
     handleNext = () => {
-      const { history } = this.props;
-      const { contador } = this.state;
-      const quatro = 4;
       this.setState((prev) => ({
         contador: prev.contador + 1,
         showAnswer: false,
         counter: 30,
-      }), () => contador === quatro && history.push('/feedback'));
+      }), () => this.handleData());
       this.handleTimer();
     }
 
@@ -191,7 +200,7 @@ const mapDispatchToProps = (dispatch) => ({
 Game.propTypes = {
   history: PropTypes.func.isRequired,
   mapDispatch: PropTypes.func.isRequired,
-  lastScore: PropTypes.func.isRequired,
+  lastScore: PropTypes.number.isRequired,
   mapAssertions: PropTypes.func.isRequired,
 };
 

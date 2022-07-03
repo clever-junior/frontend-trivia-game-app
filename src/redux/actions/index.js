@@ -1,4 +1,4 @@
-import SAVE_LOGIN, { MY_SCORE, USER_SCORE, SAVE_EMAIL } from './actionsTypes';
+import SAVE_LOGIN, { MY_SCORE, USER_SCORE, SAVE_EMAIL, SAVE_IMG } from './actionsTypes';
 
 const saveLogin = (payload) => ({
   type: SAVE_LOGIN,
@@ -39,3 +39,8 @@ export const myPunctuation = (state) => (dispatch) => {
     dispatch(myScore(resultado));
   }
 };
+
+export const saveImg = (payload) => ({
+  type: SAVE_IMG,
+  payload,
+});

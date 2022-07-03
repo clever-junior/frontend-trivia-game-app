@@ -4,27 +4,16 @@ import Header from './Header';
 
 class Ranking extends React.Component {
   state = {
-    // Jogadores: {},
+    jogadores: [],
   }
 
-  // const = {
-  //   1: separadas
-  //   2: separadas ,
-  //   2: [ sadas, dfasdas, sdaasd ]
-  // }
-
   componentDidMount() {
-    const players = localStorage;
-    // this.setState({
-    //   Jogadores: players,
-    // });
-    // const todosJogadores = JSON.parse(players);
-    // console.log(todosJogadores);
-    console.log(players);
-    // player;
-    // for ( let i = 0; i < players.length; i++) {
-    //   players[i].replace('','')
-    // }
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    const sortedRanking = ranking.sort((a, b) => (b.score - a.score));
+    this.setState({ jogadores: sortedRanking });
+    // console.log(ranking);
+    // console.log(sortedRanking[0].player.name);
+    console.log(sortedRanking);
   }
 
     handleHome = () => {
@@ -33,14 +22,21 @@ class Ranking extends React.Component {
     }
 
     render() {
-      // const { Jogadores } = this.state;
+      const { jogadores } = this.state;
+      // console.log(jogadores[0].player.name);
       return (
         <div>
           <Header />
           <h1 data-testid="ranking-title">Classificação</h1>
-          {/* {
-            console.log('aaaa', Jogadores)
-          } */}
+          <div>
+            {
+              jogadores.map((item, index) => (
+                <h3 key={ index }>{ item.player.name }</h3>
+                //  <h4 data-testid=player-score-${index}>{ item.player.score }</h4>
+                // <img alt={ item.player.gravatarImg }src={ item.player.gravatarImg}></img>
+              ))
+            }
+          </div>
           <button
             type="button"
             data-testid="btn-go-home"
@@ -48,7 +44,6 @@ class Ranking extends React.Component {
           >
             Inicio
           </button>
-          <div />
         </div>
       );
     }

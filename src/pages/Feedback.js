@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import md5 from 'crypto-js/md5';
+// import md5 from 'crypto-js/md5';
 import Header from './Header';
 
 class Feedback extends React.Component {
   componentDidMount() {
-    this.saveOnLocalStorage();
+    // this.saveOnLocalStorage();
+    this.saveLocalStorage();
   }
 
-  saveOnLocalStorage = () => {
-    const { name, score, email, assertions } = this.props;
-    const hastCreator = md5(email).toString();
-    const gravatarUrl = `https://www.gravatar.com/avatar/${hastCreator}`;
-    const { length } = localStorage;
-    const perfis = [
-      name, score, assertions, gravatarUrl,
-    ];
-    const vamos = JSON.parse(perfis);
-    localStorage.setItem(length + 1, vamos);
-    localStorage.removeItem('token');
-  }
+  // saveOnLocalStorage = () => {
+  //   const { name, score, email, assertions } = this.props;
+  //   const hastCreator = md5(email).toString();
+  //   const gravatarUrl = `https://www.gravatar.com/avatar/${hastCreator}`;
+  //   const { length } = localStorage;
+  //   const perfis = [
+  //     name, score, assertions, gravatarUrl,
+  //   ];
+  //   localStorage.setItem(length + 1, perfis);
+  //   localStorage.removeItem('token');
+  // }
 
     handlePlayAgain = () => {
       const { history } = this.props;
@@ -30,6 +30,21 @@ class Feedback extends React.Component {
     handleRanking = () => {
       const { history } = this.props;
       history.push('/ranking');
+    }
+
+    saveLocalStorage = () => {
+      const {
+        player,
+      } = this.props;
+
+      // console.log(player);
+      localStorage.removeItem('token');
+      if (!localStorage.getItem('ranking')) {
+        localStorage.setItem('ranking', JSON.stringify([player]));
+      } else {
+        const ranking = JSON.parse(localStorage.getItem('ranking'));
+        localStorage.setItem('ranking', JSON.stringify([...ranking, player]));
+      }
     }
 
     render() {
@@ -70,8 +85,9 @@ Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   history: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  // email: PropTypes.string.isRequired,
+  // name: PropTypes.string.isRequired,
+  player: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -79,6 +95,7 @@ const mapStateToProps = (state) => ({
   score: state.player.score,
   name: state.player.name,
   email: state.player.gravatarEmail,
+  player: state,
 });
 
 export default connect(mapStateToProps, null)(Feedback);
