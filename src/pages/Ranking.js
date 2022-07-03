@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import RankingPlayer from '../Components/ranking';
 
 class Ranking extends React.Component {
   state = {
@@ -13,7 +14,7 @@ class Ranking extends React.Component {
     this.setState({ jogadores: sortedRanking });
     // console.log(ranking);
     // console.log(sortedRanking[0].player.name);
-    console.log(sortedRanking);
+    // console.log(sortedRanking);
   }
 
     handleHome = () => {
@@ -31,9 +32,7 @@ class Ranking extends React.Component {
           <div>
             {
               jogadores.map((item, index) => (
-                <h3 key={ index }>{ item.player.name }</h3>
-                //  <h4 data-testid=player-score-${index}>{ item.player.score }</h4>
-                // <img alt={ item.player.gravatarImg }src={ item.player.gravatarImg}></img>
+                <RankingPlayer key={ index } info={ item } />
               ))
             }
           </div>
