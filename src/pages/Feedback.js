@@ -36,12 +36,15 @@ class Feedback extends React.Component {
       } = this.props;
 
       // console.log(player);
-      localStorage.removeItem('token');
+      // localStorage.removeItem('token');
+      // console.log(localStorage.getItem('token'));
       if (!localStorage.getItem('ranking')) {
-        localStorage.setItem('ranking', JSON.stringify([player]));
+        const token = localStorage.getItem('token');
+        localStorage.setItem('ranking', JSON.stringify([player, token]));
       } else {
         const ranking = JSON.parse(localStorage.getItem('ranking'));
-        localStorage.setItem('ranking', JSON.stringify([...ranking, player]));
+        const token = localStorage.getItem('token');
+        localStorage.setItem('ranking', JSON.stringify([...ranking, player, token]));
       }
     }
 
@@ -91,7 +94,7 @@ const mapStateToProps = (state) => ({
   score: state.player.score,
   name: state.player.name,
   email: state.player.gravatarEmail,
-  player: state,
+  player: state.player,
 });
 
 export default connect(mapStateToProps, null)(Feedback);

@@ -12,7 +12,8 @@ class Ranking extends React.Component {
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     const sortedRanking = ranking.sort((a, b) => (b.score - a.score));
     this.setState({ jogadores: sortedRanking });
-    localStorage.setItem('ranking', JSON.stringify([sortedRanking]));
+    // localStorage.setItem('ranking', JSON.stringify([sortedRanking]));
+    console.log(localStorage);
   }
 
     handleHome = () => {
