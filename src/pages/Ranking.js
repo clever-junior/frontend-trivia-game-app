@@ -28,7 +28,7 @@ class Ranking extends React.Component {
           <div>
             {
               jogadores.map((item, index) => (
-                <RankingPlayer key={ index } info={ item } />
+                <RankingPlayer key={ index } info={ item } index={ index } />
               ))
             }
           </div>
