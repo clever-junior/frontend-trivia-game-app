@@ -42,11 +42,14 @@ class Ranking extends React.Component {
           <Header />
           <h1 data-testid="ranking-title">Classificação</h1>
           <div>
-            {
-              jogadores.map((item, index) => (
-                <RankingPlayer key={ index } info={ item } index={ index } />
-              ))
-            }
+            <ol>
+              {
+                jogadores.map((item, index) => (
+
+                  <RankingPlayer key={ index } info={ item } index={ index } />
+                ))
+              }
+            </ol>
           </div>
           <button
             type="button"

@@ -7,7 +7,11 @@ class RankingPlayer extends React.Component {
     // console.log(index);
     // console.log(info.ranking[0].score);
     return (
-      <div>
+      <li>
+        <img
+          alt={ info.ranking[0].picture }
+          src={ info.ranking[0].picture }
+        />
         <h3
           key={ index }
           data-testid={ `player-name-${index}` }
@@ -16,11 +20,7 @@ class RankingPlayer extends React.Component {
 
         </h3>
         <h4 data-testid={ `player-score-${index}` }>{ info.ranking[0].score }</h4>
-        <img
-          alt={ info.ranking[0].picture }
-          src={ info.ranking[0].picture }
-        />
-      </div>
+      </li>
     );
   }
 }
