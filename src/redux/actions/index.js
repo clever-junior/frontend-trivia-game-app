@@ -1,9 +1,13 @@
-import SAVE_LOGIN, { MY_SCORE, USER_SCORE } from './actionsTypes';
+import SAVE_LOGIN, { MY_SCORE, USER_SCORE, SAVE_EMAIL, SAVE_IMG } from './actionsTypes';
 
-const saveLogin = (nome, email) => ({
+const saveLogin = (payload) => ({
   type: SAVE_LOGIN,
-  nome,
-  email,
+  payload,
+});
+
+export const saveEmail = (payload) => ({
+  type: SAVE_EMAIL,
+  payload,
 });
 
 export default saveLogin;
@@ -35,3 +39,8 @@ export const myPunctuation = (state) => (dispatch) => {
     dispatch(myScore(resultado));
   }
 };
+
+export const saveImg = (payload) => ({
+  type: SAVE_IMG,
+  payload,
+});
