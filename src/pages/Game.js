@@ -28,8 +28,7 @@ class Game extends React.Component {
     const { results } = data;
     this.setState({
       result: results,
-    });
-    this.handleData();
+    }, () => this.handleData());
     this.handleTimer();
   }
 
