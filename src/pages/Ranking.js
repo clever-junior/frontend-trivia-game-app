@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './Header';
+// import Header from './Header';
 import RankingPlayer from '../Components/ranking';
 
 class Ranking extends React.Component {
@@ -39,7 +39,7 @@ class Ranking extends React.Component {
       // console.log(jogadores);
       return (
         <div>
-          <Header />
+          {/* <Header /> */}
           <h1 data-testid="ranking-title">Classificação</h1>
           <div>
             <ol>
