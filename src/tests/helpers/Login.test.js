@@ -1,4 +1,3 @@
-
 import React from "react";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -51,7 +50,7 @@ describe("Testando a tela de login", () => {
   })
   
   it('Verificando o redirecionamento do botão play', async () => {
-    renderWithRouterAndRedux(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     const btnPlay = screen.getByRole("button", { name: /play/i });
 
     expect(btnPlay).toBeDisabled()
