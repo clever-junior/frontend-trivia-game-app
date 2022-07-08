@@ -10,7 +10,6 @@ import App from "../../App";
 describe('Testando a página de Feedback', () => {
     it('Verificando se os elmentos estão na page de Feedback', () => {
       const { history } = renderWithRouterAndRedux(<App />, {}, '/feedBack');
-        // renderWithRouter(<feedBack />)
         const gravatarImg = screen.getByRole('img', {
             name: /gravatar/i
           })
